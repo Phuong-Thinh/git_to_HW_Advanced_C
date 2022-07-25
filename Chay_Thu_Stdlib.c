@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <String.h>
+#include<stdlib.h>
 int test_strtof(char *Str,char **Ptr){
     for(int i=0;;i++){
         if(*(Str+i)>=48 && *(Str+i)<=57){

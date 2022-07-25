@@ -1,70 +1,124 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
 
-struct node
+/*phan nay cay qua em tham khao cua
+https://daynhauhoc.com/t/giup-v-stack-va-queue/15810
+nguoi ta viet C++ em sua lai va ghi them chu thi sang c*/
+typedef int item; //kieu du lieu
+typedef struct NODE
 {
-    int data;
-    struct node *next;
-};
-typedef struct node NODE ;
+    item Data; //du lieu
+    NODE *Next; //link
+} Node;
+typedef struct
+{
+    Node *Top;
+} Stack;
+ 
+void Init (Stack*); //khoi tao Stack rong
+int IsEmpty(Stack); //kiem tra Stack rong
+void Push(Stack*, item); //them phan tu vao Stack
+int Peak(Stack); //Lay phan tu o dau Stack nhung khong xoa
+int Pop(Stack*); //Loai bo phan tu khoi Stack
+void Input (Stack*); //Nhap Stack
+void Output(Stack); //Xuat Stack
+Node* MakeNode(item x); //Tao 1 Node
 
-struct list{
-    //thanh phan dau danh sach
-    NODE *pHead;
-    //thanh phan cuoi danh sach
-    NODE *pTail;
-};
-typedef struct list LIST;
+ 
+void Init (Stack* S) //khoi tao Stack rong
+{
+    S->Top = NULL;
+}
+ 
+int IsEmpty(Stack S) //kiem tra Stack rong
+{
+    return (S.Top == NULL);
+}
+ 
 
-void KhoiTao(LIST *ds){
-    //dat dia chi dau danh sach bang NULL
-    ds->pHead = NULL;
-    //dat dia chi cuoi danh sach bang NULL
-    ds->pTail = NULL;
-}
-int KiemTraRong(LIST ds){
-    //neu phan tu dau danh sach NULL
-    if (ds.pHead == NULL){
-        //tra ve 1 la co NULL
-        return 1;
-    }
-    //truong hop nguoc lai tra ve khong null
-    return 0;
-}
-NODE* TaoNode(int x) {
-    //tao mot node p moi
-    // NODE *p;
-    // p = KiemTraRong;// co gai tri 0 hoac 1
-    //neu p==NULL thi khong du bo nho
-    if (!KiemTraRong) {
-        printf ("KHONG DU BO NHO");
-        return NULL;
-    }
-    //gan thanh phan data = x
-    p->data=x;
-    //gan con tro next = NULL
-    p->next=NULL;
-    //tra ve node p da tao
+Node* MakeNode(item x) //tao 1 Node
+{
+    Node *p = new Node;
+    p->Next = NULL;
+    p->Data = x;
     return p;
 }
-
- NODE *top=NULL; // bien kiem tra
-int GiaTriDau()  
-{    
-    if (!KiemTraRong)  // !0=1 la da day
-        return top->data;  
-    else
-        exit(1);  
+ 
+void Push(Stack* S, item x) //them phan tu vao Stack
+{
+    Node *p = MakeNode(x);
+    p->Next = S->Top;
+    S->Top = p;
 }
-// bien gia tri dau hien tai co the lay tu pHead->data;
+ 
+int Peak(Stack S) //Lay phan tu o dau Stack nhung khong xoa
+{
+	return (IsEmpty(S) ? 0 : S.Top->Data);
+}
+ 
+int Pop(Stack* S) // Loai bo phan tu khoi Stack
+{
+    // Prerequisite: S is not empty.
 
-int main(){
+    item x = 0;
+    if ( IsEmpty(*S) )
+    {
+    	printf("\nStack rong");
+    } else {
+        x = S->Top->Data; //luu lai gia tri
+        Node* p = S ->Top ->Next;
+    	delete S ->Top;
+        S->Top = p; //Xoa phan tu Top
+    }
+    return x;
+}
+ 
+void Input(Stack* S) //nhap danh sach
+{
+    int i = 0;
+    item x;
+    do
+    {
+        printf("Nhap phan tu thu %d: ", ++i);
+        scanf("%d", &x);
+        if (x) Push(S, x);
+    } while(x); //nhap 0 de ket thuc
+}
+ 
+void Output(Stack S)
+{
+    Node *p = S.Top;
+    while (p)
+    {
+        printf("%d\t", p->Data);
+        p = p->Next;
+    }
+    printf("\n");
+}
+#ifdef TEST_STACK
 
-    //khai bao mot danh sach
-    LIST ds;
-    //khoi tao danh sach
-    KhoiTao(&ds);
-    //kiem danh sach co rong hay khong
-    KiemTraRong(ds);
+int main()
+{
+    Stack S;
+    Init(&S);
+    Input(&S);
+    Output(S);
+ 
+    if ( IsEmpty(S) )
+	printf("\nStack %srong!", (IsEmpty(S) ? "" : "khong "));
 
+	item x;
+    printf("\nNhap phan tu can chen vao DS: ");
+    scanf("%d", &x);
+    
+    Push(&S, x);
+    Output(S);
+    
+    printf("\nXoa phan tu trong Stack: ");
+    Pop(&S);
+    Output(S);
+
+    printf("\nLay noi dung cua phan tu tai dinh Stack:\n");
+    printf("%d\t", Peak(S));
+    
+    return 0;
 }

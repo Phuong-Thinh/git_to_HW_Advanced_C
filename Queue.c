@@ -6,7 +6,7 @@
 #define false 0
 
 
-
+/*Queue Basic*/
 
 bool IsEmpty(int front, int rear){
     
@@ -38,20 +38,21 @@ void Front(){
 }
 
 
-void InputArray(int size, int Queue[]){
-    for (int i = 0; i < size; ++i)
+void InputArray(int Queue[], int rear, int front)
+{
+    for (rear ; rear != front; rear++) // when rear == front is full
     {
-        printf("\nNhap pt a%d = ",i); 
-        scanf("%d",&Queue[i]);
+        printf("\nInput Queue a%d = ",rear);  // pt 1->5
+        scanf("%d",&Queue[rear]);   //array 0->4'
     }
-
+    
 }
 
 
-void OutputArray(int size, int Queue[]){
-    for (int i = 0; i < size; ++i)
+void OutputArray(int Queue[], int front, int rear){
+    for (int i = front; i < rear; ++i)
         {
-            printf("\n phan tu a%d = %d",i,Queue[i]);
+            printf("\n element a%d = %d",i,Queue[i]);
         }
     
 }
@@ -61,6 +62,7 @@ int main(){
     int Queue[size];
     int front = 0;
     int rear = size - 1;
-    InputArray(size, Queue);
-    OutputArray(size, Queue);
+    
+    InputArray(Queue, front, rear);
+    OutputArray(Queue, front, rear);
 }
